@@ -7,7 +7,8 @@ class Type {
 
   get rules () {
     return {
-      name: 'required'
+      name: 'required',
+      image: 'required'
     }
   }
 

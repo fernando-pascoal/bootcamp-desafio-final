@@ -16,12 +16,11 @@ const Order = props => {
       <div className="order-items">
         {order.items.map(item => (
           <div key={item.id} className="item">
-            <img
-              src={`http://localhost:3333/images/${item.size.image}`}
-              alt={`Uma produto do cardapio`}
-            />
+            <img src={item.size.url} alt={`Uma produto do cardapio`} />
             <div className="item-info">
-              <h3>{item.size.type.name}</h3>
+              <h3>
+                {item.count}x - {item.size.type.name}
+              </h3>
               <p>Tamanho: {item.size.name}</p>
               <p>Preço: R$ {item.size.price.toFixed(2)}</p>
             </div>

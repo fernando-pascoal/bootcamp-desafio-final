@@ -12,6 +12,9 @@ class Order extends Model {
     moment.locale('pt')
     return moment(updated_at).fromNow()
   }
+  address () {
+    return this.hasOne('App/Models/Address', 'address_id', 'id')
+  }
 
   items () {
     return this.hasMany('App/Models/ItemsOrder')

@@ -19,7 +19,7 @@ class TypeController {
     }
   }
   async store ({ request, response }) {
-    const data = request.only(['name', 'product_id'])
+    const data = request.only(['name', 'image', 'product_id'])
     try {
       await Product.findOrFail(data.product_id)
       const type = await Type.create(data)
@@ -33,14 +33,15 @@ class TypeController {
     }
   }
   async update ({ params, request, response }) {
-    const data = request.only(['name', 'product_id'])
+    const data = request.only(['name', 'image', 'product_id'])
     try {
-      await Product.findOrFail(params.id)
+      await Product.findOrFail(data.product_id)
       const type = await Type.findOrFail(params.id)
       type.merge(data)
       await type.save()
       return type
     } catch (error) {
+      console.log(error)
       if (!error.status) error.status = 500
       return response.status(error.status).send({
         error: true,

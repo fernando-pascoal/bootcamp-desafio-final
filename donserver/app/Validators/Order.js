@@ -8,7 +8,9 @@ class Order {
   get rules () {
     return {
       items: 'required',
-      'items.*.size_id': 'required|integer'
+      'items.*.id': 'required|integer',
+      'items.*.count': 'required|integer',
+      address: 'required'
     }
   }
 

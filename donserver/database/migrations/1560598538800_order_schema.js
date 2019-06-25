@@ -8,6 +8,13 @@ class OrderSchema extends Schema {
     this.create('orders', table => {
       table.increments()
       table
+        .integer('address_id')
+        .unsigned()
+        .references('id')
+        .inTable('addresses')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+      table
         .integer('user_id')
         .unsigned()
         .references('id')

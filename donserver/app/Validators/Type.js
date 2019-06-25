@@ -8,6 +8,7 @@ class Type {
   get rules () {
     return {
       name: 'required',
+      image: 'required',
       product_id: 'required|integer'
     }
   }

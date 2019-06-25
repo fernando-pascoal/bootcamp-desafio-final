@@ -23,8 +23,8 @@ Route.resource('products', 'ProductController')
   .middleware(['auth'])
   .validator(
     new Map([
-      [['products.store'], ['OnlyName']],
-      [['products.update'], ['OnlyName']]
+      [['products.store'], ['Product']],
+      [['products.update'], ['Product']]
     ])
   )
 

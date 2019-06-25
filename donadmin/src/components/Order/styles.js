@@ -32,7 +32,7 @@ export const OrderContainer = styled.div`
     .item {
       display: flex;
       flex: 1;
-      min-width: 250px;
+      width: 250px;
       margin: ${metrics.margin};
       margin-left: 0;
       justify-content: space-between;

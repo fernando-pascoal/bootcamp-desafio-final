@@ -5,10 +5,17 @@ const Database = use('Database')
 const Size = use('App/Models/Size')
 
 class OrderController {
-  async index ({ request, response, params }) {
+  async index ({ request, response, auth }) {
+    const { user } = auth
     const page = request.input('page')
+    const params = { type: '=', val: user.id }
+    if (user.admin) {
+      params.type = '>'
+      params.val = 0
+    }
     try {
       const orders = await Order.query()
+        .where('user_id', params.type, params.val)
         .with('items.size.type')
         .with('user')
         .orderBy('updated_at', 'desc')
@@ -26,13 +33,21 @@ class OrderController {
     // order: user_id, total
     // items: order_id, size_id
     const { user } = auth
-    const items = request.input(['items'])
-    const remarks = request.input(['remarks'])
+    const data = request.only(['items', 'remarks', 'address'])
     try {
       const trx = await Database.beginTransaction()
-      const order = await Order.create({ user_id: user.id, remarks }, trx)
+      const order = await Order.create(
+        { user_id: user.id, remarks: data.remarks },
+        trx
+      )
+      let items = []
+      await data.items.forEach(item => {
+        for (let index = 0; index < item.count; index++) {
+          items.push({ size_id: item.id })
+        }
+      })
       await order.items().createMany(items, trx)
-
+      await order.address().create(data.address, trx)
       await trx.commit()
       const total = await Size.query()
         .sum('price')
@@ -43,10 +58,11 @@ class OrderController {
 
       return order
     } catch (error) {
+      console.log(error)
       if (!error.status) error.status = 500
       return response.status(error.status).send({
         error: true,
-        message: 'Problemas ao tentar obter os produtos'
+        message: 'Problemas ao tentar salvar os produtos'
       })
     }
   }

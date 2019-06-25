@@ -37,35 +37,65 @@ class Dashboard extends Component {
     }
   };
 
+  //Obtem todos os itens e retorna a quantidade por item
+  transformOrders = orders => {
+    return orders.map(order => {
+      const items = [];
+      for (let index = 0; index < order.items.length; index++) {
+        const currentItem = order.items[index];
+        const total = order.items.filter(
+          item => item.size_id === currentItem.size_id
+        );
+        const exists = items.filter(
+          item => item.size_id === currentItem.size_id
+        );
+
+        if (!exists.length) {
+          currentItem.count = total.length;
+          items.push(currentItem);
+        }
+      }
+      order.items = items;
+
+      return order;
+    });
+  };
+
   loadOrders = async (page = 1) => {
     try {
-      const { orders } = this.state;
+      let { orders } = this.state;
       const { data } = await api.get(`/orders?page=${page}`);
       const username = await sessionStorage.getItem("@app:username");
+      const result = this.transformOrders([...orders, ...data.data]);
       this.setState({
-        orders: [...orders, ...data.data],
+        orders: result,
         page: data.page,
         lastPage: data.lastPage,
         loading: false,
         username
       });
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        toast("Não consegui ti autenticar");
-        this.removeStorage();
-        this.goToLogin();
-        return;
-      }
-      if (error.response && error.response.data.lenght > 0) {
-        error.response.data.forEach(data => {
-          toast(`${data.field} - ${data.message}`);
-        });
-        return;
-      } else if (error.response && error.response.data.message) {
-        return toast(error.response.data.message);
+      if (error.response) {
+        if (error.response && error.response.status === 401) {
+          toast("Não consegui ti autenticar");
+          this.removeStorage();
+          this.goToLogin();
+          return;
+        }
+        if (error.response && error.response.data.lenght > 0) {
+          error.response.data.forEach(data => {
+            toast(`${data.field} - ${data.message}`);
+          });
+          return;
+        } else if (error.response && error.response.data.message) {
+          return toast(error.response.data.message);
+        } else {
+          toast("Ops! Algum problema aconteceu");
+        }
       } else {
         toast("Ops! Algum problema aconteceu");
       }
+
       this.setState({
         loading: false
       });

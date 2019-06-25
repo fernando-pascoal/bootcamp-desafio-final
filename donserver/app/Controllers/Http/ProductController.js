@@ -6,11 +6,10 @@ class ProductController {
   async index ({ response }) {
     try {
       const products = await Product.query()
-        .with('types.sizes')
+        .with('types.sizes.type.product')
         .fetch()
       return products
     } catch (error) {
-      console.log(error)
       return response.status(error.status).send({
         error: true,
         message: 'Problemas ao tentar obter os produtos'
@@ -18,9 +17,9 @@ class ProductController {
     }
   }
   async store ({ request, response }) {
-    const name = request.input(['name'])
+    const data = request.only(['name', 'image', 'description', 'delivery'])
     try {
-      const product = await Product.create({ name })
+      const product = await Product.create(data)
       return product
     } catch (error) {
       if (!error.status) error.status = 500
@@ -31,10 +30,10 @@ class ProductController {
     }
   }
   async update ({ params, request, response }) {
-    const name = request.input(['name'])
+    const data = request.only(['name', 'image', 'description', 'delivery'])
     try {
       const product = await Product.findOrFail(params.id)
-      product.name = name
+      product.merge(data)
       await product.save()
       return product
     } catch (error) {

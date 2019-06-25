@@ -48,19 +48,24 @@ class Login extends Component {
       await sessionStorage.setItem("@app:username", data.username);
       history.push("/");
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        return toast("Não consegui ti autenticar");
-      }
-      if (error.response && error.response.data.lenght > 0) {
-        error.response.data.forEach(data => {
-          toast(`${data.field} - ${data.message}`);
-        });
-        return;
-      } else if (error.response.data.message) {
-        toast(error.response.data.message);
+      if (error.response) {
+        if (error.response.status === 401) {
+          return toast("Não consegui ti autenticar");
+        }
+        if (error.response.data.lenght > 0) {
+          error.response.data.forEach(data => {
+            toast(`${data.field} - ${data.message}`);
+          });
+          return;
+        } else if (error.response.data.message) {
+          toast(error.response.data.message);
+        } else {
+          toast("Ops! Algum problema aconteceu");
+        }
       } else {
         toast("Ops! Algum problema aconteceu");
       }
+
       this.setState({
         loading: false
       });
