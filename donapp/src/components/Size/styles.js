@@ -32,11 +32,11 @@ export const Text = styled.Text`
   color: ${props => (props.color === "gray" ? colors.gray : colors.blue)};
 `;
 
-export const Image = styled.Image`
-  width: 70px;
-  height: 70px;
-  flex: 1;
-  align-self: center;
+export const ImageContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
 `;
 
 export const ButtonsContainer = styled.View`

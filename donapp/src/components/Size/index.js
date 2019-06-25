@@ -5,19 +5,26 @@ import {
   Content,
   ContentIcon,
   Text,
-  Image,
+  ImageContainer,
   ButtonsContainer,
   ButtonIcon
 } from "./styles";
+
+import { Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 class Size extends Component {
   state = {
-    count: 1
+    count: 1,
+    width: 50,
+    height: 50
   };
 
   componentDidMount() {
     const { size } = this.props;
+    Image.getSize(size.url, (width, height) => {
+      this.setState({ width, height });
+    });
     this.setState({ count: size.count });
   }
 
@@ -46,14 +53,23 @@ class Size extends Component {
   };
   render() {
     const { size, type } = this.props;
-    const { count } = this.state;
+    const { count, width, height } = this.state;
     return (
       <Container type={type} onPress={() => this.setItemIntoOrder()}>
-        <Image
-          resizeMode="contain"
-          resizeMethod="resize"
-          source={{ uri: type === "cart" ? size.type.url : size.url }}
-        />
+        <ImageContainer>
+          <Image
+            resizeMethod="scale"
+            resizeMode="contain"
+            style={{
+              width,
+              height,
+              maxWidth: 80,
+              maxHeight: 80,
+              borderRadius: 4
+            }}
+            source={{ uri: type === "cart" ? size.type.url : size.url }}
+          />
+        </ImageContainer>
 
         {type === "cart" ? (
           <Fragment>
