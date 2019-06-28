@@ -12,6 +12,10 @@ export const styles = StyleSheet.create({
     textAlignVertical: "center",
     justifyContent: "center",
     alignItems: "center"
+  },
+  bBlue: {
+    color: colors.white,
+    backgroundColor: colors.blue
   }
 });
 

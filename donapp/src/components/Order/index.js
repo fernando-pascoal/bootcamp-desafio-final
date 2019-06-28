@@ -10,7 +10,11 @@ import {
 const Order = props => {
   const { order } = props;
   return (
-    <Container>
+    <Container
+      style={{
+        elevation: 8
+      }}
+    >
       <Content>
         <Title>Pedido #{order.id}</Title>
         <DescriptionText>{order.moment}</DescriptionText>

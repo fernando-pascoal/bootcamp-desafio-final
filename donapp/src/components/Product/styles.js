@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { metrics, colors } from "~/src/styles";
 
-export const Container = styled.TouchableOpacity.attrs({})`
+export const Container = styled.TouchableOpacity`
   padding: ${metrics.padding};
   margin-bottom: ${metrics.bigPadding};
   background-color: ${colors.white};

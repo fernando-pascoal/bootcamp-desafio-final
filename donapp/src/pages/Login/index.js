@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, StatusBar } from "react-native";
 import {
   styles,
   Logo,
@@ -113,71 +113,74 @@ class Login extends Component {
       type
     } = this.state;
     return (
-      <Fragment>
-        <Container>
-          <Toast
-            ref={c => (this.toastify = c)}
-            position="center"
-            durationShort={1000}
-          />
-          <Image source={require("./fundo.jpg")} />
-          <LinearGradient
-            colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0.9)"]}
-            style={styles.form}
-          >
-            <Form>
-              <Logo source={require("./img/logo.png")} />
-              {type === "signup" && (
-                <Input
-                  placeholder="Seu nome"
-                  value={username}
-                  onChangeText={username => this.setState({ username })}
-                />
-              )}
+      <Container>
+        <StatusBar
+          hidden={true}
+          backgroundColor="rgba(0,0,0,0.2)"
+          barStyle="rgba(255,255,255)"
+        />
+        <Toast
+          ref={c => (this.toastify = c)}
+          position="center"
+          durationShort={1000}
+        />
+        <Image source={require("./fundo.jpg")} />
+        <LinearGradient
+          colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0.9)"]}
+          style={styles.form}
+        >
+          <Form>
+            <Logo source={require("./img/logo.png")} />
+            {type === "signup" && (
               <Input
-                autoCapitalize="none"
-                placeholder="Seu e-mail"
-                value={email}
-                onChangeText={email => this.setState({ email })}
+                placeholder="Seu nome"
+                value={username}
+                onChangeText={username => this.setState({ username })}
               />
+            )}
+            <Input
+              autoCapitalize="none"
+              placeholder="Seu e-mail"
+              value={email}
+              onChangeText={email => this.setState({ email })}
+            />
+            <Input
+              secureTextEntry={true}
+              placeholder="Senha secreta"
+              value={password}
+              onChangeText={password => this.setState({ password })}
+            />
+            {type === "signup" && (
               <Input
                 secureTextEntry={true}
-                placeholder="Senha secreta"
-                value={password}
-                onChangeText={password => this.setState({ password })}
+                placeholder="Confirme a secreta"
+                value={password_confirmation}
+                onChangeText={password_confirmation =>
+                  this.setState({ password_confirmation })
+                }
               />
-              {type === "signup" && (
-                <Input
-                  secureTextEntry={true}
-                  placeholder="Confirme a secreta"
-                  value={password_confirmation}
-                  onChangeText={password_confirmation =>
-                    this.setState({ password_confirmation })
-                  }
-                />
+            )}
+            <Button onPress={e => this.handlerSend(e)} bg="red">
+              {loading ? (
+                <ActivityIndicator size={30} color="#FFF" />
+              ) : (
+                <ButtonText>Entrar</ButtonText>
               )}
-              <Button onPress={e => this.handlerSend(e)} bg="red">
-                {loading ? (
-                  <ActivityIndicator size={30} color="#FFF" />
-                ) : (
-                  <ButtonText>Entrar</ButtonText>
-                )}
-              </Button>
-              <Button onPress={e => this.handlerSend(e)} bg="transparent">
-                {type === "signin" ? (
-                  <ButtonText onPress={() => this.changeForm("signup")}>
-                    Criar conta gratuita
-                  </ButtonText>
-                ) : (
-                  <ButtonText onPress={() => this.changeForm("signin")}>
-                    Ja tenho conta
-                  </ButtonText>
-                )}
-              </Button>
-            </Form>
-          </LinearGradient>
-        </Container>
-      </Fragment>
+            </Button>
+            <Button onPress={e => this.handlerSend(e)} bg="transparent">
+              {type === "signin" ? (
+                <ButtonText onPress={() => this.changeForm("signup")}>
+                  Criar conta gratuita
+                </ButtonText>
+              ) : (
+                <ButtonText onPress={() => this.changeForm("signin")}>
+                  Ja tenho conta
+                </ButtonText>
+              )}
+            </Button>
+          </Form>
+        </LinearGradient>
+      </Container>
     );
   }
 }

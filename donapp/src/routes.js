@@ -9,6 +9,7 @@ import Login from "~/src/pages/Login";
 /**
  * PRIVATE
  */
+
 import Home from "~/src/pages/Home";
 import Types from "~/src/pages/Types";
 import Sizes from "~/src/pages/Sizes";

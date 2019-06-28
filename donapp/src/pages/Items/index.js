@@ -64,7 +64,7 @@ class Items extends Component {
             onPress={() => this.redirect("Home")}
             name="cart-plus"
             size={20}
-            style={styles.icon}
+            style={{ ...styles.icon, ...styles.bBlue }}
           />
           <Icon
             onPress={() => this.redirect("Orders")}

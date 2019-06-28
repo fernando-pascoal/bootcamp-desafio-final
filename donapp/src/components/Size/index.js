@@ -55,7 +55,13 @@ class Size extends Component {
     const { size, type } = this.props;
     const { count, width, height } = this.state;
     return (
-      <Container type={type} onPress={() => this.setItemIntoOrder()}>
+      <Container
+        style={{
+          elevation: 8
+        }}
+        type={type}
+        onPress={() => this.setItemIntoOrder()}
+      >
         <ImageContainer>
           <Image
             resizeMethod="scale"

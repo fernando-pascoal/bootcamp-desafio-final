@@ -6,13 +6,7 @@ const Product = ({ product, navigate }) => (
   <Container
     onPress={() => navigate()}
     style={{
-      shadowColor: "#000000",
-      shadowOpacity: 0.8,
-      shadowRadius: 2,
-      shadowOffset: {
-        height: 10,
-        width: 10
-      }
+      elevation: 8
     }}
   >
     <Image source={{ uri: product.url }} />

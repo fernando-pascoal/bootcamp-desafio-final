@@ -24,6 +24,9 @@ class Header extends Component {
     showTotal: false,
     loading: true
   };
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
 
   componentDidMount() {
     const { state } = this.props.navigation;
@@ -45,7 +48,7 @@ class Header extends Component {
   goback = async () => {
     const { navigation } = this.props;
     navigation.goBack(null);
-    return BackHandler.removeEventListener("hardwareBackPress");
+    return true;
   };
 
   logout = async () => {
